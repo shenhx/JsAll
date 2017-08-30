@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app-12">
+        <p>
+            问一个答案是 yes/no 的问题：
+            <input type="text" v-model="question" /></p>
+        <p>{{answer}}</p>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app-12',
+            data: {
+                question: '',
+                answer: '你要先提出问题，我才能给你答案！'
+            },
+            watch: {
+                question: function (newQa) {
+                    this.$answer = '等待输入停止……'
+                    this.getAnswer()
+                }
+            },
+            methods: {
+                getAnswer: _.debounce(
+                    function () {
+                        if (this.question.indexOf('？') === -1) {
+                            this.answer = '问题通常需要包含一个中文问号。;-)'
+                            return
+                        }
+                        this.answer = '思考中……'
+                        var vm = this;
+                        axios.get('https://yesno.wtf/api').then(function (res) {
+                            vm.answer = _.capitalize(res.data.answer)
+                        }).catch(function (err) {
+                            vm.answer = '错误！API 无法处理。' + error
+                        })
+                    },500
+                )
+            }
+        })
+    </script>
+</body>
+
+</html>
