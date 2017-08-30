@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app-11">
+        <p>初始 message 是："{{ message }}"</p>
+        <p>计算后的翻转 message 是："{{ reversedMessage }}，" +当前事件是"{{now}}" </p>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#app-11',
+            data:{
+                message:'hello'
+            },
+            computed:{
+                reversedMessage:function(){
+                    console.log(new Date().getSeconds().toString());
+                    return this.message.split('').reverse().join('');
+                },
+                //并没有缓存的效果
+                now:function(){
+                    return Date.now();
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
