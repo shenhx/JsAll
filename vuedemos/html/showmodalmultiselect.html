@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,16 +72,15 @@
         <button id="show-modal" @click="showPopup">Show Modal</button>
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal" @close="showModal = false" @ok="returnData">
-            <h3 slot="header">请选择你想吃的水果（单选）</h3>
-            <div id="body" slot="slto-body">
+            <h3 slot="header">请选择你想吃的水果（多选）</h3>
+            <div id="body" slot="slot-body">
                 <ol>
-                    <li><input type="radio" name="fruits" @click="setItemValue('苹果')" id="apple">苹果</li>
-                    <li><input type="radio" name="fruits" @click="setItemValue('雪梨')" id="peal">雪梨</li>
-                    <li><input type="radio" name="fruits" @click="setItemValue('香蕉')" id="banana">香蕉</li>
-                    <li><input type="radio" name="fruits" @click="setItemValue('其他')" id="other">其他：
-                        <input type="text" width="30" v-model="otherContent">
+                    <li v-for="fruit in fruitList" v-bind:item="fruit" v-bind:key="fruit.fruitId">
+                        <input type="checkbox" name="oneGroup" checked="item.isChecked" id="item.fruitId">
+                        <input type="text" value="item.fruitName">
                     </li>
                 </ol>
+                <input type="text" width="30" v-model="otherContent">
             </div>
         </modal>
     </div>
@@ -99,7 +97,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <slot name="slto-body">
+                            <slot name="slot-body">
                                 
                             </slot>
                         </div>
@@ -119,6 +117,7 @@
     <script type="text/javascript">
         // register modal component
         Vue.component('modal', {
+            
             template: '#modal-template'
         })
 
@@ -127,24 +126,44 @@
             el: '#app',
             data: {
                 showModal: false,
-                other : '',
+                otherContent:'',
                 selectValue:'',
-                otherContent:''
+                fruitList:[{
+                    fruitId:'apple',
+                    fruitName:'苹果',
+                    isChecked:false
+                },{
+                    fruitId:'banana',
+                    fruitName:'香蕉',
+                    isChecked:false
+                },{
+                    fruitId:'pearl',
+                    fruitName:'雪梨',
+                    isChecked:false
+                },{
+                    fruitId:'other',
+                    fruitName:'其他',
+                    isChecked:false
+                }]
             },
             methods:{
                 showPopup:function(){
                     this.showModal = true
                 },
-                setItemValue:function(value){
-                    this.selectValue = value;
-                },
                 returnData:function(){
+                    for(let item in fruitList){
+                        if(item.isChecked){
+                            if(item.fruitId === "other"){
+                                this.selectValue += this.otherContent;
+                            }else{
+                                this.selectValue += item.fruitName;
+                            }
+                        }
+                    }
                     if(this.selectValue === ''){
                         alert("没有选择内容！");
                         return;
                     }
-                    if(this.selectValue === "其他")
-                        this.selectValue = this.otherContent;
                     this.showModal = false
                     alert("你选择的内容是：" + this.selectValue);
                 }
