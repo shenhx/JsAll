@@ -75,15 +75,16 @@
             <h3 slot="header">请选择你想吃的水果（多选）</h3>
             <div id="body" slot="slot-body">
                 <ol>
-                    <li v-for="fruit in fruitList" v-bind:item="fruit" v-bind:key="fruit.fruitId">
-                        <input type="checkbox" name="oneGroup" checked="item.isChecked" id="item.fruitId">
-                        <input type="text" value="item.fruitName">
+                    <li v-for="fruit in fruitList" v-bind:key="fruit.fruitId">
+                        <input type="checkbox" name="oneGroup" checked="fruit.isChecked" id="fruit.fruitId">
+                        <input type="text" value="fruit.fruitName">
                     </li>
                 </ol>
                 <input type="text" width="30" v-model="otherContent">
             </div>
         </modal>
     </div>
+    <!--template-->
     <script type="text/x-template" id="modal-template">
         <transition name="modal">
             <div class="modal-mask">
