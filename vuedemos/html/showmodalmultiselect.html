@@ -76,11 +76,11 @@
             <div id="body" slot="slot-body">
                 <ol>
                     <li v-for="fruit in fruitList" v-bind:key="fruit.fruitId">
-                        <input type="checkbox" name="oneGroup" checked="fruit.isChecked" id="fruit.fruitId">
-                        <input type="text" value="fruit.fruitName">
+                        <input type="checkbox" name="oneGroup" v-model="fruit.isChecked" :key="fruit.fruitId">
+                        <label>{{fruit.fruitName}}</label>
                     </li>
                 </ol>
-                <input type="text" width="30" v-model="otherContent">
+                <input type="text" width="40" :key="otherContent" v-model="otherContent">
             </div>
         </modal>
     </div>
@@ -126,12 +126,12 @@
             el: '#app',
             data: {
                 showModal: false,
-                otherContent:'',
+                otherContent:'3232323',
                 selectValue:'',
                 fruitList:[{
                     fruitId:'apple',
                     fruitName:'苹果',
-                    isChecked:false
+                    isChecked:true
                 },{
                     fruitId:'banana',
                     fruitName:'香蕉',
@@ -151,7 +151,8 @@
                     this.showModal = true
                 },
                 returnData:function(){
-                    for(let item in fruitList){
+                    for(index in this.fruitList){
+                        var item = this.fruitList[index];
                         if(item.isChecked){
                             if(item.fruitId === "other"){
                                 this.selectValue += this.otherContent;
@@ -166,6 +167,7 @@
                     }
                     this.showModal = false
                     alert("你选择的内容是：" + this.selectValue);
+                    this.selectValue = '';
                 }
             }
         })
