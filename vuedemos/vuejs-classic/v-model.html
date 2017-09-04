@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-model使用说明</title>
+</head>
+
+<body id="app">
+    <form action="#">
+        姓名：
+        <input type="text" v-model="data.name" placeholder="">
+        <br> 性别：
+        <input type="radio" name="sex" id="man" value="1" v-model="data.sex">
+        <label for="man">男</label>
+        <input type="radio" name="sex" id="male" value="2" v-model="data.sex">
+        <label for="man">女</label> 兴趣：
+        <input type="checkbox" name="interest" id="book" v-model="data.interest">
+        <label for="book">阅读</label>
+        <input type="checkbox" name="interest" id="swin" v-model="data.interest">
+        <label for="swin">游泳</label>
+        <br> 身份：
+        <select name="identity" id="identity" v-model="data.identity">
+            <option value="teacher" selected>教师</option>
+            <option value="doctor">医生</option>
+            <option value="lawyer">律师</option>
+        </select>
+        <br> 输入数字：
+        <div>
+            <input id="inputNumber" type="text" v-model="inputNumberVal" v-model.number />
+            <label for="inputNumber">{{inputNumberVal}}</label>
+        </div>
+        <br> 输入汉字：
+        <div>
+            <input id="inputString" type="text" v-model="inputStringVal" lazy />
+            <label for="inputString">{{inputStringVal}}</label>
+        </div>
+    </form>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                sex: '',
+                interest: [],
+                identity: '',
+                inputNumberVal: '',
+                inputStringVal:''
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
